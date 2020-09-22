@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 	private TextView longitude;
 	private TextView accuracy;
 	private TextView speed;
+	private TextView altitude;
 	private TextView sensor;
 	private TextView updates;
 	private TextView address;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 	private Switch location;
 	private Switch gps;
 
+	private Location currentLocation;
 	private LocationRequest locationRequest;
 	private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 						@Override
 						public void onSuccess(Location location) {
 							if (location != null) {
+								updateUIValues(location);
+								currentLocation = location;
 								Log.i("fused-1", "lat: " + location.getLatitude() + " lon: " + location.getLongitude());
 							}
 						}
@@ -94,10 +98,27 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	private void updateUIValues(Location location) {
+		this.latitude.setText(String.valueOf(location.getLatitude()));
+		this.longitude.setText(String.valueOf(location.getLongitude()));
+		this.accuracy.setText(String.valueOf(location.getAccuracy()));
+
+		if (location.hasAltitude())
+			this.altitude.setText(String.valueOf(location.getAltitude()));
+		else
+			this.altitude.setText("Not available");
+
+		if (location.hasSpeed())
+			this.speed.setText(String.valueOf(location.getSpeed()));
+		else
+			this.speed.setText("Not available");
+	}
+
 	private void inicializar() {
 		this.latitude = this.findViewById(R.id.textView_latitude);
 		this.longitude = this.findViewById(R.id.textView_longitude);
 		this.accuracy = this.findViewById(R.id.textView_accuracy);
+		this.altitude = this.findViewById(R.id.textView_altitude);
 		this.speed = this.findViewById(R.id.textView_speed);
 		this.sensor = this.findViewById(R.id.textView_sensor);
 		this.updates = this.findViewById(R.id.textView_updates);
