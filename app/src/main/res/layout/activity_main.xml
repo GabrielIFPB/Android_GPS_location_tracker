@@ -17,7 +17,7 @@
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
-		android:id="@+id/tv_lat"
+		android:id="@+id/textView_latitude"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="32dp"
@@ -29,31 +29,33 @@
 		android:id="@+id/tv_labellon"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="16dp"
 		android:text="lon:"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tv_labellat" />
 
 	<TextView
-		android:id="@+id/tv_lon"
+		android:id="@+id/textView_longitude"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="16dp"
 		android:text="0.00"
 		app:layout_constraintStart_toEndOf="@+id/tv_labellon"
-		app:layout_constraintTop_toBottomOf="@+id/tv_lat" />
+		app:layout_constraintTop_toBottomOf="@+id/textView_latitude" />
 
 	<TextView
 		android:id="@+id/tv_labelaltitude"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="16dp"
 		android:text="Altitude:"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tv_labellon" />
 
 	<TextView
-		android:id="@+id/tv_altitude"
+		android:id="@+id/textView_altitude"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="0.00"
@@ -64,13 +66,14 @@
 		android:id="@+id/tv_labelaccuracy"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="16dp"
 		android:text="Accuracy:"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tv_labelaltitude" />
 
 	<TextView
-		android:id="@+id/tv_accuracy"
+		android:id="@+id/textView_accuracy"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="0.00"
@@ -81,13 +84,14 @@
 		android:id="@+id/tv_labelspeed"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="16dp"
 		android:text="Speed:"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tv_labelaccuracy" />
 
 	<TextView
-		android:id="@+id/tv_speed"
+		android:id="@+id/textView_speed"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="0.00"
@@ -98,13 +102,14 @@
 		android:id="@+id/tv_labelsensor"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="16dp"
 		android:text="Sensor:"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/sw_gps" />
+		app:layout_constraintTop_toBottomOf="@+id/switch_gps" />
 
 	<TextView
-		android:id="@+id/tv_sensor"
+		android:id="@+id/textView_sensor"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Cell Tower + Wifi"
@@ -115,12 +120,13 @@
 		android:id="@+id/tv_labelupdates"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:text="Updates:"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/sw_locationsupdates" />
+		app:layout_constraintTop_toBottomOf="@+id/switch_location" />
 
 	<TextView
-		android:id="@+id/tv_updates"
+		android:id="@+id/textView_updates"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Off"
@@ -128,18 +134,17 @@
 		app:layout_constraintTop_toTopOf="@+id/tv_labelupdates" />
 
 	<Switch
-		android:id="@+id/sw_locationsupdates"
+		android:id="@+id/switch_location"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="16dp"
-		android:checked="true"
 		android:text="Location Updates"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 	<Switch
-		android:id="@+id/sw_gps"
+		android:id="@+id/switch_gps"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="16dp"
@@ -149,7 +154,7 @@
 		app:layout_constraintTop_toBottomOf="@+id/tv_labelupdates" />
 
 	<TextView
-		android:id="@+id/tv_address"
+		android:id="@+id/textView_address"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		app:layout_constraintStart_toEndOf="@+id/tv_lbladdress"
@@ -159,10 +164,11 @@
 		android:id="@+id/tv_lbladdress"
 		android:layout_width="100dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="32dp"
 		android:layout_marginTop="16dp"
 		android:text="Address:"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tv_labelspeed" />
+		app:layout_constraintTop_toBottomOf="@+id/textView_speed" />
 
 	<View
 		android:id="@+id/divider"
@@ -173,6 +179,6 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintHorizontal_bias="0.5"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+		app:layout_constraintTop_toBottomOf="@+id/textView_address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
