@@ -15,3 +15,8 @@ Demonstração do aplicativo Android usando FusedLocationProviderClient, Google 
 5. **OnSuccessListener** and **Location Callback** - Métodos acionados sempre que o telefone atualiza sua localização GPS.
 6. **Starting** and **Stopping**  - rastreamento de localização.
 7. **GeoCode** - Um serviço do Google para traduzir automaticamente uma localização GPS para o endereço da rua.
+
+<br/>
+
+<img src="https://github.com/GabrielIFPB/Android_GPS_location_tracker/blob/master/Screenshot_20200929-161846_Android%20GPS%20Location%20Tracker.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/Android_GPS_location_tracker/blob/master/Screenshot_20200929-162031_Android%20GPS%20Location%20Tracker.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/Android_GPS_location_tracker/blob/master/20200929_162300.jpg" alt="" width="200"/>
+
