@@ -6,6 +6,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,9 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private Location currentLocation;
 	private LocationRequest locationRequest;
+	private LocationCallback locationCallback;
 	private FusedLocationProviderClient fusedLocationProviderClient;
 
 	@Override
@@ -53,6 +61,28 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		this.inicializar();
+		this.updateGPS();
+	}
+
+	private void inicializar() {
+		this.latitude = this.findViewById(R.id.textView_latitude);
+		this.longitude = this.findViewById(R.id.textView_longitude);
+		this.accuracy = this.findViewById(R.id.textView_accuracy);
+		this.altitude = this.findViewById(R.id.textView_altitude);
+		this.speed = this.findViewById(R.id.textView_speed);
+		this.sensor = this.findViewById(R.id.textView_sensor);
+		this.updates = this.findViewById(R.id.textView_updates);
+		this.address = this.findViewById(R.id.textView_address);
+
+		this.location = this.findViewById(R.id.switch_location);
+		this.gps = this.findViewById(R.id.switch_gps);
+
+		this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+		this.createLocationRequest();
+		this.locationCallback = this.createdLocationCallback();
+
+		this.gps.setOnClickListener(this.ativarGPS);
+		this.location.setOnClickListener(this.locationUpdate);
 	}
 
 	private void createLocationRequest() {
@@ -60,6 +90,21 @@ public class MainActivity extends AppCompatActivity {
 		this.locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
 		this.locationRequest.setFastestInterval(1000 * FAST_UPDATE_INTERVAL);
 		this.locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+	}
+
+	private LocationCallback createdLocationCallback() {
+		return new LocationCallback() {
+			@Override
+			public void onLocationResult(LocationResult locationResult) {
+				if (locationResult == null)
+					return;
+
+				for (Location location : locationResult.getLocations()) {
+					Log.i("fused-2", "lat: " + location.getLatitude() + " lon: " + location.getLongitude());
+					updateUIValues(location);
+				}
+			}
+		};
 	}
 
 	private View.OnClickListener ativarGPS = new View.OnClickListener() {
@@ -72,8 +117,47 @@ public class MainActivity extends AppCompatActivity {
 				locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 				sensor.setText("Using Towers + WIFI");
 			}
+			updateGPS();
 		}
 	};
+
+	private View.OnClickListener locationUpdate = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			if (location.isChecked()) {
+				startLocationUpdates();
+			} else {
+				stopLocationUpdates();
+			}
+		}
+	};
+
+	private void startLocationUpdates() {
+		this.updates.setText("Location is being tracked");
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			return;
+		}
+		this.fusedLocationProviderClient.requestLocationUpdates(
+				this.locationRequest, this.locationCallback, null);
+		this.updateGPS();
+	}
+
+	private void stopLocationUpdates() {
+		this.updates.setText("Location is NOT being tracked");
+		this.latitude.setText("Not tracking location");
+		this.longitude.setText("Not tracking location");
+		this.accuracy.setText("Not tracking location");
+
+		this.altitude.setText("Not tracking location");
+		this.altitude.setText("Not tracking location");
+
+		this.speed.setText("Not tracking location");
+		this.speed.setText("Not tracking location");
+		this.sensor.setText("Not tracking location");
+		this.address.setText("Not tracking location");
+
+		this.fusedLocationProviderClient.removeLocationUpdates(this.locationCallback);
+	}
 
 	private void updateGPS() {
 		// obter permissões do usuário para rastreador GPS
@@ -112,25 +196,17 @@ public class MainActivity extends AppCompatActivity {
 			this.speed.setText(String.valueOf(location.getSpeed()));
 		else
 			this.speed.setText("Not available");
-	}
 
-	private void inicializar() {
-		this.latitude = this.findViewById(R.id.textView_latitude);
-		this.longitude = this.findViewById(R.id.textView_longitude);
-		this.accuracy = this.findViewById(R.id.textView_accuracy);
-		this.altitude = this.findViewById(R.id.textView_altitude);
-		this.speed = this.findViewById(R.id.textView_speed);
-		this.sensor = this.findViewById(R.id.textView_sensor);
-		this.updates = this.findViewById(R.id.textView_updates);
-		this.address = this.findViewById(R.id.textView_address);
+		Geocoder geocoder = new Geocoder(this);
 
-		this.location = this.findViewById(R.id.switch_location);
-		this.gps = this.findViewById(R.id.switch_gps);
-
-		this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-		this.createLocationRequest();
-
-		this.gps.setOnClickListener(this.ativarGPS);
+		try {
+			List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+			Address endereco = addresses.get(0);
+			this.address.setText(endereco.getAddressLine(0));
+		} catch (IOException e) {
+			this.address.setText("Unable to get street address");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
